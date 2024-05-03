@@ -28,6 +28,9 @@
       </tbody>
     </table>
   </div>
+   <div v-else-if="errorMessage" class="error-message">
+    {{ errorMessage }}
+   </div>
 </template>
 
 <script setup>
@@ -37,14 +40,15 @@ import countriesData from "/public/countries.json";
 
 const country = ref(null);
 const route = useRoute();
+const errorMessage = ref('');
 
 onMounted(() => {
   const alpha3Code = route.params.alpha3Code;
   const foundCountry = countriesData.find((c) => c.alpha3Code === alpha3Code);
   if (foundCountry) {
     country.value = foundCountry;
-  } else {
-    console.error(`País con código alfa-3 ${alpha3Code} no encontrado.`);
-  }
+ } else {
+    errorMessage.value = `País con código alfa-3 ${alpha3Code} no encontrado.`;
+ }
 });
 </script>
